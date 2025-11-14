@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, HTTPException, Body, Query
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel
@@ -105,6 +106,8 @@ async def send_whatsapp_text(phone_number_id: str, access_token: str, to_number:
 
 
 # ---------- GET /webhook (VERIFICACIÓN CON META) ----------
+VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN", "flowh1-dev-token")
+
 
 @router.get("/webhook", response_class=PlainTextResponse)
 async def verify_webhook(
@@ -114,22 +117,13 @@ async def verify_webhook(
 ):
     """
     Meta llama a este GET cuando configuras el webhook.
-    Validamos que hub_verify_token exista en whatsapp_bot_configs.verify_token.
+    Aquí SOLO comparamos contra un token fijo (env o por defecto).
     """
-    if hub_mode == "subscribe" and hub_verify_token and hub_challenge:
-        res = (
-            supabase_admin.table("whatsapp_bot_configs")
-            .select("id")
-            .eq("verify_token", hub_verify_token)
-            .limit(1)
-            .execute()
-        )
-        if res.data:
-            # devolvemos el challenge tal cual lo manda Meta
-            return hub_challenge
+    if hub_mode == "subscribe" and hub_verify_token == VERIFY_TOKEN and hub_challenge:
+        # devolvemos el challenge tal cual lo manda Meta
+        return hub_challenge
 
     raise HTTPException(status_code=403, detail="Verification failed")
-
 
 # ---------- POST /webhook (MENSAJES REALES) ----------
 
