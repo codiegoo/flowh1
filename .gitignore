@@ -1,34 +1,3 @@
 # === ENTORNO VIRTUAL ===
 venv/
 .env/
-
-# === ARCHIVOS DE CONFIGURACIÓN SENSIBLES ===
-*.env
-*.env.local
-env/
-ENV/
-
-# === CACHE DE PYTHON ===
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.pyd
-*.db
-*.sqlite3
-
-# === ARCHIVOS DE LOGS ===
-*.log
-
-# === CONFIGURACIÓN DE EDITORES ===
-.vscode/
-.idea/
-
-# === ARCHIVOS DEL SISTEMA ===
-.DS_Store
-Thumbs.db
-
-# === COMPILACIONES / DISTRIBUCIONES ===
-build/
-dist/
-*.egg-info/
