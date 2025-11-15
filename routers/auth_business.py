@@ -33,7 +33,7 @@ def register_business(data: RegisterBusinessIn):
         user_res = supabase_admin.auth.admin.create_user(
             {
                 "email": data.email,
-                "password": data.assword,
+                "password": password,
                 "email_confirm": True,
             }
         )
@@ -49,7 +49,7 @@ def register_business(data: RegisterBusinessIn):
         "owner_user_id": user.id,
         "name": data.name,
         "email": data.email,
-        "password": data.password,
+        "password": password,
         "type": data.type,
         "phone": data.phone,
         "whatsapp_number": data.whatsapp_number,
