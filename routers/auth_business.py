@@ -5,7 +5,7 @@ from supabase_client import supabase_admin
 
 router = APIRouter(prefix="/auth-business", tags=["auth"])
 
-DEFAULT_PASSWORD = "cambiaesto123"
+DEFAULT_PASSWORD = "flowadmin"
 
 
 @router.get("/ping")
@@ -33,7 +33,7 @@ def register_business(data: RegisterBusinessIn):
         user_res = supabase_admin.auth.admin.create_user(
             {
                 "email": data.email,
-                "password": password,
+                "password": data.assword,
                 "email_confirm": True,
             }
         )
@@ -48,6 +48,8 @@ def register_business(data: RegisterBusinessIn):
     business_insert = {
         "owner_user_id": user.id,
         "name": data.name,
+        "email": data.email,
+        "password": data.password,
         "type": data.type,
         "phone": data.phone,
         "whatsapp_number": data.whatsapp_number,
